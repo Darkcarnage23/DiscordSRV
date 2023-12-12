@@ -41,20 +41,6 @@ import java.util.concurrent.TimeUnit;
 public class DiscordAccountLinkListener extends ListenerAdapter {
 
     @Override
-    public void onPrivateMessageReceived(PrivateMessageReceivedEvent event) {
-        // don't process messages sent by the bot
-        if (event.getAuthor().getId().equals(event.getJDA().getSelfUser().getId())) return;
-
-        DiscordSRV.api.callEvent(new DiscordPrivateMessageReceivedEvent(event));
-
-        // don't link accounts if config option is disabled
-        if (!DiscordSRV.config().getBoolean("MinecraftDiscordAccountLinkedUsePM")) return;
-
-        String reply = DiscordSRV.getPlugin().getAccountLinkManager().process(event.getMessage().getContentRaw(), event.getAuthor().getId());
-        if (reply != null) event.getMessage().reply(reply).queue();
-    }
-
-    @Override
     public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
         // don't process messages sent by bots
         if (event.getAuthor().isBot()) return;
